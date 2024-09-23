@@ -72,9 +72,18 @@ class Exp_Long_Term_Forecast(Exp_Basic):
                 pred = outputs.detach().cpu()
                 true = batch_y.detach().cpu()
 
-                loss = criterion(pred, true)
+                if self.args.data == 'PEMS':
+                    B, T, C = pred.shape
+                    pred = pred.cpu().numpy()
+                    true = true.cpu().numpy()
+                    pred = vali_data.inverse_transform(pred.reshape(-1, C)).reshape(B, T, C)
+                    true = vali_data.inverse_transform(true.reshape(-1, C)).reshape(B, T, C)
+                    mae, mse, rmse, mape, mspe = metric(pred, true)
+                    total_loss.append(mae)
 
-                total_loss.append(loss)
+                else:
+                    loss = criterion(pred, true)
+                    total_loss.append(loss.item())
         total_loss = np.average(total_loss)
         self.model.train()
         return total_loss
