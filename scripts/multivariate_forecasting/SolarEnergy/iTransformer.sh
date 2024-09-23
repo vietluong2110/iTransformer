@@ -2,6 +2,7 @@ export CUDA_VISIBLE_DEVICES=1
 
 model_name=iTransformer
 
+
 python -u run.py \
   --is_training 1 \
   --root_path ./dataset/Solar/ \
@@ -20,7 +21,7 @@ python -u run.py \
   --d_model 512 \
   --d_ff 512 \
   --learning_rate 0.0005 \
-  --itr 1
+  --itr 1 >./logs/'pl12_seed'$fix_seed.log
 
 python -u run.py \
   --is_training 1 \
