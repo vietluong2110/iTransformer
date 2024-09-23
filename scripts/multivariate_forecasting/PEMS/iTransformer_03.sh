@@ -4,6 +4,7 @@ model_name=iTransformer
 
 for fix_seed in 2022 2023 2024 2025 2026; do
 python -u run.py \
+  --fix_seed $fix_seed \
   --is_training 1 \
   --root_path ./dataset/PEMS/ \
   --data_path PEMS03.npz \
@@ -21,5 +22,5 @@ python -u run.py \
   --d_model 512 \
   --d_ff 512 \
   --learning_rate 0.001 \
-  --itr 1
+  --itr 1 >./logs/PEMS03/'pl12_seed'$fix_seed.log 
 done
